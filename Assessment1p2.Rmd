@@ -1,0 +1,74 @@
+---
+title: "Assessment1.2"
+author: "NhanVanCao"
+date: "10/20/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+11. Display the types of variables in the dataset using `skimr` package 
+```{r}
+install.packages(skimr)
+library(skimr)
+skim(fastfood)
+```
+12. Show the count of observations for each restaurant.
+```{r}
+
+fastfood%>%count(
+  restaurant
+)
+```
+
+)
+
+13. Using grouppings (group_by()), summarise and display the average number of calories for each restaurant.
+
+```{r}
+fastfood%>%
+group_by(restaurant)%>%summarise(average_calories_each_restaurant=mean(calories))
+```
+
+14. Add a variable to the dataset, which calculates the average calories per type of restaurant and call it `average_calories`
+
+```{r}
+'average_calories'<-fastfood%>%
+group_by(restaurant)%>%summarise(average_calories_each_restaurant=mean(calories))
+```
+
+15. Display the data visualization of total fat per each type of restaurant. Write a narration (2-3 sentences) why you believe this type of data visualization presents such information best. 
+```{r}
+
+fastfood%>% group_by(restaurant)%>%
+        summarise(total_fat)
+```
+Two or more variables creates a bit more complexity. The best visualizations depend on whether the comparison is numeric to numeric, numeric to categorical, or categorical to categorical.
+
+16. Add a variable to the dataset, which calculates the maximum total fat per type of restaurant and call it `max_total_fat` 
+
+
+```{r}
+
+'max_total_fat'<-fastfood%>%
+group_by(restaurant)%>%
+  mutate(max_total_fat = max(total_fat))%>%ungroup()
+
+```
+17. Use observations for Mcdonalds to plot sugar variable against protein with `geom_point()` 
+
+- Save your .rmd file 
+
+- Do a commit in Git tab
+
+- Push in the same tab
+
+```{r}
+fastfood %>% 
+  select(restaurant, sugar, protein)%>% filter(restaurant=="Mcdonalds")%>% 
+  ggplot(aes(sugar,protein))+geom_point(colour = "red") +
+  labs(x="Protein",y="Sugar",title="Mcdonalds",caption="Observation")
+```
+
